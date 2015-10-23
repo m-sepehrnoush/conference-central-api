@@ -43,7 +43,7 @@ class CheckSpeaker(webapp2.RequestHandler):
         and add them as featured speaker."""
         websafeKey = self.request.get('websafeKey')
         speaker = self.request.get('speaker')
-        ConferenceApi._speakerCheck(websafeKey,speaker)  
+        ConferenceApi._checkFeaturedSpeaker(websafeKey,speaker)  
 
 app = webapp2.WSGIApplication([
     ('/crons/set_announcement', SetAnnouncementHandler),

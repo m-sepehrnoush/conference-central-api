@@ -812,19 +812,19 @@ class ConferenceApi(remote.Service):
 # - - - Featured speaker - - - - - - - - - - - - - - - - - - -
 
     @staticmethod
-    def _checkFeaturedSpeaker():
+    def _checkFeaturedSpeaker(websafeKey, speaker):
         """Set featured speaker using memcache.
         """
-        currentSpeaker = request.get('speaker')
-        wsck = request.get('websafeKey')
-        confKey = ndb.Key(urlsafe=wsck)
-        sessions = session.query(ancestor=confKey)
-        # look through conference sessions in order to find
-        # current speaker's equivalnet.
+        confKey = ndb.Key(urlsafe=websafeKey)
+        
+        sessions = Session.query(Session.speaker == speaker, ancestor=confKey)
+        
+        featured_string = "Today's featured speaker is "+speaker+" speaking at the following sessions: "
         for session in sessions:
-            if session.speaker==currentSpeaker:
-                memcache.set(wsck, currentSpeaker)
-        return currentSpeaker
+            featured_string += " " + session.sessionName
+        if sessions.count() > 1:    
+                memcache.set(websafeKey, featured_string)
+        return speaker
 
 
     @endpoints.method(CONF_GET_REQUEST, StringMessage,
