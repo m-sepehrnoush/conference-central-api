@@ -44,6 +44,7 @@ There are several methodes for accessing and testing the API Server:
  * Listing whishlist items
 	- getSessionsInAWishlist()
 	query for all the sessions in a conference that the user is interested in
+
 ### Task 3:
  * Additional Queries:
 	- Added the following endpoints to get a list of sessions based on duration, and
